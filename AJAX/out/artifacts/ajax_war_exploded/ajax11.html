@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ajax实现省市联动</title>
+</head>
+<body>
+<script type="text/javascript" src="/ajax/js/jQuery-1.0.js"></script>
+<script type="text/javascript">
+    //页面加载后执行
+    $(function () {
+        //调用ajax函数,显示省份信息
+        $.ajax({
+            type:"get",
+            url:"/ajax/ajaxRequest11",
+            data:"t="+new Date().getTime(),
+            async:true,
+            success:function (json) {
+                var html="<option value=\"\">请选择省份</option>"
+                for (var i = 0; i < json.length; i++) {
+                    var code=json[i].code
+                    var name=json[i].name
+                    html +="<option value=\""+code+"\">"+name+"</option>"
+                }
+                $("#province").html(html)
+            }
+        })
+        //当选择省份后，弹出所有的市
+        //执行change事件，发送ajax请求
+        $("#province").change(function () {
+            $.ajax({
+                type:"get",
+                url:"/ajax/ajaxRequest11",
+                //$("#province").val()是省份的code，也是市的pcode
+                data:"t="+new Date().getTime()+"&pcode="+$("#province").val(),
+                async:true,
+                success:function (json) {
+                    var html="<option value=\"\">请选择市</option>"
+                    for (var i = 0; i < json.length; i++) {
+                        var code=json[i].code
+                        var name=json[i].name
+                        html +="<option value=\""+code+"\">"+name+"</option>"
+                    }
+                    $("#city").html(html)
+                }
+            })
+        })
+    })
+</script>
+<select id="province">
+    <!--<option value="">请选择省份</option>
+    <option value="001">云南省</option>
+    <option value="002">贵州省</option>-->
+</select>
+<select id="city">
+    <!--<option value="">请选择省份</option>
+    <option value="001">云南省</option>
+    <option value="002">贵州省</option>-->
+</select>
+</body>
+</html>

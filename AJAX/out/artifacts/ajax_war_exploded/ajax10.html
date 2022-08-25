@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>测试自己写的jQuery库</title>
+</head>
+<body>
+<!--引入jQuery类库-->
+    <script type="text/javascript" src="/ajax/js/jQuery-1.0.js"></script>
+    <script type="text/javascript">
+        //页面加载后执行
+        $(function () {
+            //点击事件
+            $("#btn").click(function () {
+                //调用ajax方法
+                $.ajax({
+                    //type:"GET",
+                    type:"post",
+                    url:"/ajax/ajaxRequest10",
+                    data:"username="+$("#username").val(),
+                    async: true,
+                    success:function (json) {
+                        //执行
+                        $("#myDiv").html(json.username)
+                    }
+                })
+            })
+        })
+    </script>
+    <button id="btn">提交</button>
+    <input type="text" id="username"/>
+    <div id="myDiv"></div>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>测试：ajax请求跨域访问会不会有问题？</title>
+</head>
+<body>
+<!--
+    经过测试：默认情况下，发送ajax跨域请求的时候会出现以下错误
+            Access to XMLHttpRequest at 'http://localhost:8081/B/hello' from origin 'http://localhost:8080'
+            has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+
+            CORS策略阻止（这个ajax跨域请求被同源策略阻止）
+    同源策略：浏览器的一种安全策略
+            同源--协议一致、域名一致、端口号一致，才是同源
+            不同源--协议、域名、端口号任意一项不一致，都是不同源
+            同源:XMLHttpRequest对象可以共享
+            不同源:XMLHttpRequest对象不共享
+    跨域解决方案：
+        方案一：设置响应头
+-->
+<script type="text/javascript">
+    /*window.onload=function () {
+        document.getElementById("btn").onclick=function (){
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange=function () {
+                if (this.readyState == 4) {
+                    if (this.status >= 200 && this.status < 300) {
+                        document.getElementById("myDiv").innerHTML=this.responseText
+                    }
+                }
+            }
+            xhr.open("get","/B/hello",true)
+            xhr.send()
+        }
+    }*/
+    window.onload= () =>{
+        /*
+            ES6新特性：
+                箭头函数：() =>可以代替function()
+                let是一个关键字，可以定义变量
+                let和const关键字都可以定义变量
+                注意：在js中声明变量，可以使用：var let const
+         */
+        document.getElementById("btn").onclick=() =>{
+            let xhr = new XMLHttpRequest();
+            xhr.onreadystatechange=() =>{
+                if (xhr.readyState == 4) {
+                    //HTTP状态码在200-299之间都是正常的
+                    if (xhr.status >= 200 && xhr.status < 300) {
+                        document.getElementById("myDiv").innerHTML=xhr.responseText
+                    }
+                }
+            }
+            xhr.open("get","http://localhost:8081/B/hello",true)
+            xhr.send()
+        }
+    }
+</script>
+<button id="btn">发送ajax请求</button>
+<div id="myDiv"></div>
+</body>
+</html>

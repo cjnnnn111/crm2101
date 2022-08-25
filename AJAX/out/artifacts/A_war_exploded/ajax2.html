@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jsonp实现跨域</title>
+</head>
+<body>
+    <script type="text/javascript">
+        //程序员自定义的函数
+        function sayHello(date){ //date变量名随意，JsonpServlet响应回来的字符串会被当做一段js代码执行，同样json数据可以通过形参调用
+            alert(date.username)
+        }
+        function sum() {
+            alert("hello....")
+        }
+    </script>
+    <!--超链接也可以跨域，但点击后会页面跳转，无法做到页面局部刷新-->
+    <!--script标签可以跨域访问，src属性可以是xxx.js文件，那么这个路径可以是一个servlet？可以-->
+    <!--<script type="text/javascript" src="http://localhost:8081/B/jsonp1"></script>-->
+    <!--当然，函数名也可以在src中声明-->
+    <script type="text/javascript" src="http://localhost:8081/B/jsonp1?fun=sum"></script>
+</body>
+</html>

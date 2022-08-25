@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>将AJAX封装到jQuery库中</title>
+</head>
+<body>
+<script type="text/javascript" src="js/jQuery-1.0.js"></script>
+<script type="text/javascript" >
+    window.onload=function (){
+        document.getElementById("btn").onclick=function () {
+            /*var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange=function () {
+                if (this.readyState == 4) {
+                    if (this.status == 200) {
+                        var jsonObj=JSON.parse(this.responseText)
+
+                    }
+                }
+            }
+            xhr.open("POST","/ajax/ajaxRequest09",true)
+            xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded")
+            var username=document.getElementById("username").value
+            xhr.send("username="+username)*/
+            var username=document.getElementById("username").value
+            //调用jQuery的工具类中的ajax方法来发送ajax请求
+            $.ajax({
+                type:"POST",
+                url:"/ajax/ajaxRequest09",
+                data:"username="+username,
+                async:true,
+                success:function (json) {
+                    document.getElementById("myDiv").innerHTML=json.username
+                }
+            })
+        }
+    }
+
+</script>
+<button id="btn">提交</button>
+<input type="text" id="username" />
+<div id="myDiv"></div>
+</body>
+</html>

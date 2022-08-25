@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>自动补全和自动联想</title>
+    <style type="text/css">
+        /*
+            类选择器：设置文本框样式
+        */
+        .textBox{
+            width: 300px;
+            height: 25px;
+            font-size: 20px;
+            padding-left: 5px;
+        }
+        /*
+            类选择器：设置div样式
+        */
+        .showDataDiv{
+            width: 310px;
+            border: 1px solid lightblue;
+            background-color: antiquewhite;
+            display: none;
+        }
+        /*
+            类选择器：设置div标签中的p标签样式
+        */
+        .showDataDiv p{
+            padding-left: 5px;
+            margin-top: 2px;
+            margin-bottom: 2px;
+        }
+        /*
+            光标移动到p标签上，设置样式
+        */
+        .showDataDiv p:hover{
+            cursor: pointer;
+            border: 1px blue solid;
+            background-color: aliceblue;
+        }
+    </style>
+</head>
+<body>
+<script type="text/javascript">
+    window.onload=()=>{
+        //键盘弹起事件
+        document.getElementById("myText").onkeyup=()=>{
+            if(document.getElementById("myText").value==""){
+                document.getElementById("myDiv").style.display="none"
+            }else{
+                const xhr = new XMLHttpRequest();
+                xhr.onreadystatechange=()=>{
+                    if (xhr.readyState == 4) {
+                        if (xhr.status == 200) {
+                            //假设服务器发送来的是[{"data":"java"},{"data":"javaWeb"},{"data":"javaScript"}]
+                            var jsonArr = JSON.parse(xhr.responseText);
+                            let html=""
+                            //遍历
+                            for (let i = 0; i <jsonArr.length ; i++) {
+                                jsonArr[i].data
+                                html+="<p onclick='setInput(\""+jsonArr[i].data+"\")'>"+jsonArr[i].data+"</p>"
+                            }
+                            //在div中渲染
+                            document.getElementById("myDiv").innerHTML=html
+                            //显示
+                            document.getElementById("myDiv").style.display="block"
+
+                        }
+                    }
+                }
+                xhr.open("get","/auto/completion?data="+document.getElementById("myText").value,true)
+                xhr.send()
+            }
+
+        }
+            setInput=function (data) {
+                //当点击显示的p标签内容后，将p标签内容赋值给文本框
+                document.getElementById("myText").value=data
+                //隐藏div中的内容
+                document.getElementById("myDiv").style.display="none"
+            }
+
+    }
+</script>
+<input type="text" class="textBox" id="myText"/>
+<div class="showDataDiv" id="myDiv">
+    <p>java</p>
+    <p>javaWeb</p>
+    <p>javaScript</p>
+    <p>javabean</p>
+    <p>java.util</p>
+</div>
+</body>
+</html>

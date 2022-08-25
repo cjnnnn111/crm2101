@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>采用json格式的字符串进行数据交换</title>
+</head>
+<body>
+<script type="text/javascript">
+    window.onload=function () {
+        document.getElementById("btn").onclick=function () {
+            //1.创建核心对象
+            var xhr= new XMLHttpRequest();
+            //2.注册回调函数
+            xhr.onreadystatechange=function () {
+                if (xhr.readyState == 4) {
+                    if (xhr.status == 200) {
+                        //将服务器端响应的具有json格式的字符串转换为json对象
+                        var jsonObj=JSON.parse(this.responseText)
+                        //定义一个空字符串
+                        var html=""
+                        //循环json对象
+                        for(var i=0;i<jsonObj.length;i++){
+                            var students=jsonObj[i]
+                            //字符串拼接
+                            html +="<tr>"
+                            html +="<td>"+(i+1)+"</td>"
+                            html +="<td>"+students.name+"</td>"
+                            html +="<td>"+students.age+"</td>"
+                            html +="<td>"+students.address+"</td>"
+                            html +="</tr>"
+                        }
+                        //将字符串在tbody中展示
+                        document.getElementById("display").innerHTML=html;
+                    }else{
+                        alert(this.status)
+                    }
+                }
+            }
+            //3.打开通道
+            xhr.open("get","/ajax/ajaxRequest05",true);
+            //4.发送请求
+            xhr.send();
+        }
+    }
+</script>
+    <table width="50%" border="1px" align="center">
+        <tr>
+            <th>编号</th>
+            <th>名字</th>
+            <th>年龄</th>
+            <th>地址</th>
+        </tr>
+        <tbody id="display">
+        </tbody>
+    </table>
+<button id="btn">显示学生信息</button>
+</body>
+</html>

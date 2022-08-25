@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>测试自己编写的jQuery库（jQuery本质上就是JS库）</title>
+</head>
+<body>
+<!--使用jQuery的第一件事，是把jQuery引进来-->
+<script type="text/javascript" src="js/jQuery-1.0.js">
+</script>
+<script type="text/javascript">
+    $(function (){
+        $("#btn").click(function (){
+            $("#username").val("张三")
+            $("#myDiv").html("<font color='red'>自己写的js类库也很好用</font>")
+        })
+    })
+</script>
+<button id="btn">提交</button>
+<input type="text" id="username"/>
+<div id="myDiv"></div>
+</body>
+</html>

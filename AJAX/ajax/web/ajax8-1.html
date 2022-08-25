@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>手动封装js库JQuery</title>
+</head>
+<body>
+<!--<script type="text/javascript">
+    window.onload=function () {
+        document.getElementById("btn").onclick=function () {
+            document.getElementById("myDiv").innerHTML="<font color='red'>用户名为空</font>"
+        }
+    }
+</script>-->
+
+<!--
+    封装一个函数，通过这个函数可以获取到html页面中的节点，这个函数我给它起一个名字叫做：jQuery
+    要封装的代码是：根据id来获取元素， document.getElementById("btn")
+    设计思路来源于css的语法，id选择器# id可以获取到这个元素
+-->
+<script type="text/javascript">
+    //封装函数:jQuery
+    function jQuery(selector){ //参数随意
+        //如果参数是以#开始，说明是一个id选择器
+        if (selector.charAt(0) == "#") {
+            //#id从1开始截取就是id
+            var obj=document.getElementById(selector.substring(1));
+            return obj
+        }
+    }
+    //改造
+    /*window.onload=function () {
+        jQuery("#btn").onclick=function () {
+            jQuery("#myDiv").innerHTML="<font color='blue'>用户名为空</font>"
+        }
+    }*/
+    //还可以进一步简化代码
+    //赋值给合法的标识符
+    $=jQuery
+    window.onload=function () {
+       $("#btn").onclick=function () {
+           $("#myDiv").innerHTML="<font color='green'>用户名为空</font>"
+        }
+    }
+</script>
+<button id="btn">提交</button>
+<div id="myDiv"></div>
+</body>
+</html>

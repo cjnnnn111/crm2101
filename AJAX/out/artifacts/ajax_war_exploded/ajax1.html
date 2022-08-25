@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>第一个ajax请求</title>
+</head>
+<body>
+<script type="text/javascript">
+    //页面加载完成后执行
+    window.onload=function (){
+        //注册点击事件
+        document.getElementById("btn").onclick=function (){
+            /*
+                ajax请求四步：
+             */
+            //第一步：创建AJAX核心对象XMLHttpRequest
+            var xml = new XMLHttpRequest();
+            //第二步：注册回调函数
+            //XMLHttpRequest对象的属性onreadystatechange：当readyState属性发生变化时被调用
+            xml.onreadystatechange=function (){
+                /*
+                    xml.readyState：
+                        保存 XMLHttpRequest的状态。
+                        0：请求未初始化     1：服务器连接已建立     2：请求已收到    3：正在处理请求    4：请求已完成且响应已就绪
+                        这里的回调函数会被调用多次：
+                        0-->1 被调用1次   1-->2 被调用1次   2-->3 被调用1次   3-->4 被调用1次
+                 */
+                //console.log(xml.readyState)
+                if(xml.readyState==4){
+                    //当readState==4时，响应结束
+                    //console.log("响应结束");
+                    //响应结束之后，一般会有一个HTTP的状态码（200：成功，404表示资源找不到，500表示服务器内部错误）
+                    //HTTP状态码是HTTP协议的一部分，HTTP协议中规定，服务器响应后都会有一个状态码
+                    //获取状态码
+                    //this.status;
+                    if (this.status == 404) {
+                        alert("资源不存在")
+                        /*
+                        回调函数中的this：
+                            this表示发生事件源对象，当按钮发生了鼠标单击，那么this就是这个按钮对象
+                             xml.onreadystatechange=function ()：当前事件中的this就是xml
+                         */
+                    }else if(this.status==500){
+                        alert("服务器内部错误")
+                    }else if(this.status==200){
+                        //responseText属性可以获取响应的信息
+                        //将响应信息在div图层中渲染
+                       document.getElementById("myDiv").innerHTML=this.responseText;
+                    }
+                }
+
+            }
+            //第三步：开启通道（open只是浏览器和服务器建立连接，通道打开，并不会发送请求）
+            /*
+                open(method, url, async, user, psw)参数解释：
+                    method：请求的方式，可以是get、post或者其他请求方式
+                    url:请求的路径，要带项目名
+                    async：只能是true或者false，true表示ajax请求是异步请求，false表示ajax请求是同步请求（大部分请求都是true，要求异步）
+                    user：用户名
+                    psw：密码
+
+                    用户名和密码是进行身份验证的，说明要想访问这个服务器上的资源，可能需要提供一些口令才能访问，需不需要用户名和密码，主要看服务器的态度
+             */
+            xml.open("GET","/ajax/ajax01",true);
+            //第四步：发送请求
+            xml.send();
+        }
+
+    }
+</script>
+<!--给一个按钮，用户点击这个按钮发送ajax请求-->
+<input type="button" id="btn" value="hello ajax"/>
+<!--给一个div图层，ajax接收响应数据，在div中渲染-->
+<div id="myDiv"></div>
+</body>
+</html>

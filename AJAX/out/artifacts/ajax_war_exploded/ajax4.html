@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ajax 验证用户名</title>
+</head>
+<body>
+<script type="text/javascript">
+    window.onload=function (){
+        //光标回到，清除span标签信息
+        document.getElementById("username").onfocus=function (){
+            document.getElementById("mySpan").innerHTML=""
+        }
+        //注册失去焦点事件
+        document.getElementById("username").onblur=function (){
+            //1.创建核心对象
+            var xhr = new XMLHttpRequest();
+            //2.执行回调函数
+            xhr.onreadystatechange=function (){
+                if (this.readyState == 4) {
+                    if (this.status == 200) {
+                        document.getElementById("mySpan").innerHTML=this.responseText;
+                    }else{
+                        alert(this.status)
+                    }
+                }
+            }
+            //3.开启通道
+            xhr.open("post","/ajax/ajaxRequest4",true)
+            //4.发送请求
+            //设置请求头内容
+            xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded")
+            //获取value
+            var username = document.getElementById("username").value;
+            xhr.send("username="+username)
+        }
+    }
+</script>
+用户名：<input type="text" id="username"/>
+<span id="mySpan"></span>
+<form enctype="application/x-www-form-urlencoded"></form>
+</body>
+</html>

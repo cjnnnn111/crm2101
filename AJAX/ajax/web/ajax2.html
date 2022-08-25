@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ajax 发送get请求</title>
+</head>
+<body>
+<script type="text/javascript">
+    window.onload=function (){
+        document.getElementById("btn").onclick=function(){
+            //创建XMLHttpRequest对象
+            var xhr = new XMLHttpRequest();
+            //注册回调函数
+            xhr.onreadystatechange=function(){
+                if (this.readyState == 4) {
+                    if (this.status == 200) {
+                        document.getElementById("myDiv").innerHTML=this.responseText;
+                    }else{
+                        alert(this.status)
+                    }
+                }
+            }
+            //get请求怎么提交数据给服务器
+            //获取文本框的value
+            var username = document.getElementById("un").value;
+            var usercode = document.getElementById("uc").value;
+            //开启通道
+            //url包含了用户提交的信息
+            xhr.open("get","/ajax/ajaxRequest02?username="+username+"&usercode="+usercode+"",true)
+            //发送请求
+            xhr.send();
+        }
+    }
+</script>
+username<input type="text" id="un"/>
+usercode<input type="text" id="uc"/>
+<button id="btn">点击发送ajax请求</button>
+<div id="myDiv"></div>
+</body>
+</html>

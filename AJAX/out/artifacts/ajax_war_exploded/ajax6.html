@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>基于xml的数据交换</title>
+</head>
+<body>
+<script type="text/javascript">
+    window.onload=function () {
+        document.getElementById("btn").onclick=function () {
+            //1.创建核心对象
+            var xhr = new XMLHttpRequest();
+            //2.注册回调函数
+            xhr.onreadystatechange=function () {
+                if (this.readyState == 4) {
+                    if (this.status == 200) {
+                        var html="";
+                        //接收服务端响应的xml字符串
+                        //使用XMLHttpRequest对象的responseXML属性，接收返回后，可以自动封装成document对象（文档对象）
+                        var xml = this.responseXML;
+                        //获取所有的<student>,返回所有的学生
+                        var students = xml.getElementsByTagName("student");
+                        //遍历学生数组
+                        for (var i = 0; i < students.length; i++) {
+                            //字符串拼接
+                            html+="<tr>"
+                            html+="<td>"+(i+1)+"</td>"
+                            var student=students[i]
+                            //获取student元素下的所有子元素
+                            //可能是name，也可能是age
+                            var nameOrAge = student.childNodes;
+                            //对student元素遍历
+                            for (var j = 0; j < nameOrAge.length; j++) {
+                                //获取到student元素下的name或者age节点
+                                var node = nameOrAge[j];
+                                //该节点名字是name，返回name后的文本内容
+                                if (node.nodeName == "name") {
+                                    html+="<td>"+node.textContent+"</td>"
+                                }
+                                if (node.nodeName == "age") {
+                                    html+="<td>"+node.textContent+"</td>"
+                                }
+                            }
+                            html+="</tr>"
+                        }
+                       document.getElementById("display").innerHTML=html
+                    }
+                }
+            }
+            //3.打开通道
+            xhr.open("get","/ajax/ajaxRequest06",true)
+            //4.发送请求
+            xhr.send();
+        }
+    }
+</script>
+<table width="50%" border="1px" align="center">
+    <thead>
+    <tr>
+        <th>序号</th>
+        <th>姓名</th>
+        <th>年龄</th>
+    </tr>
+    </thead>
+    <tbody id="display">
+       <!-- <tr>
+            <td>1</td>
+            <td>张三</td>
+            <td>18</td>
+        </tr>-->
+    </tbody>
+    <button id="btn">显示学生列表</button>
+</table>
+</body>
+</html>

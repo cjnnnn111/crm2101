@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>封装jQuery的click()和html()函数</title>
+</head>
+<body>
+<script type="text/javascript">
+    function jQuery(selector){
+        if (typeof selector == "string") {
+            if (selector.charAt(0) == "#") {
+                //var obj=document.getElementById(selector.substring(1));
+                //将obj升级为全局变量
+                obj=document.getElementById(selector.substring(1));
+                //将返回值改为jQuery对象
+                //return obj
+                //调用id时，返回一个jQuery对象
+                return new jQuery()
+            }
+        }
+        if (typeof selector == "function") {
+            window.onload=selector
+        }
+        //定义一个html()函数，代替：$("#myDiv").innerHTML="<font color='green'>用户名为空</font>"
+        this.html=function (htmlStr){
+            obj.innerHTML=htmlStr
+        }
+        //定义一个click()函数，代替onclick=function () {}
+        this.click=function (fun){
+            obj.onclick=fun;
+        }
+        //同样，我们可以封装其他的事件
+        //获得焦点事件
+        this.focus=function (fun){
+            obj.onfocus=fun;
+        }
+        //失去焦点事件
+        this.blur=function (fun){
+            obj.onblur=fun;
+        }
+    }
+    /*
+        将 $("#myDiv").innerHTML="<font color='green'>用户名为空</font>"这段代码封装到html()函数中：
+            1.大致样式
+                "<font color='green'>用户名为空</font>"是一个形参htmlStr
+                function html(htmlStr){
+                    obj.innerHTML=htmlStr
+                }
+            2.将html()函数定义到jQuery类中，通过jQuery对象去调用，当前$("#myDiv")执行后返回的是obj对象，不能直接调用html()函数
+            所以要将$("#myDiv")执行后返回一个jQuery对象
+            3.jQuery对象没有innerHtml属性，不能直接访问，但是obj对象有innerHtml属性，可以将obj升级为全局变量，在整个类中都可以访问
+
+        同样，改造$("#btn").onclick=function () {}这段代码：
+            1.定义一个函数click()代替onclick=function () {}，$("#btn")是jQuery对象
+            2.相当于jQuery对象.click(fun),将整个函数作为形参传入
+            3.jQuery对象没有innerHtml属性，所以在函数体中，用全局变量obj来访问onclick属性
+     */
+
+    $=jQuery
+    $(function () {
+        //function (){ $("#myDiv").html("<font color='green'>用户名为空</font>")}作为一个形参传入到click()函数中，
+        // 执行的时候就是obj.onclick=function(){}
+        $("#btn").click(function () {
+            //jQuery对象.实例方法html(形参)
+            $("#myDiv").html("<font color='green'>用户名为空</font>")
+        })
+    })
+
+</script>
+<button id="btn">提交</button>
+<div id="myDiv"></div>
+</body>
+</html>

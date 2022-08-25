@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/A/A.iml" filepath="$PROJECT_DIR$/A/A.iml" />
+      <module fileurl="file://$PROJECT_DIR$/AJAX.iml" filepath="$PROJECT_DIR$/AJAX.iml" />
+      <module fileurl="file://$PROJECT_DIR$/B/B.iml" filepath="$PROJECT_DIR$/B/B.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ajax/ajax.iml" filepath="$PROJECT_DIR$/ajax/ajax.iml" />
+      <module fileurl="file://$PROJECT_DIR$/auto-completion/auto-completion.iml" filepath="$PROJECT_DIR$/auto-completion/auto-completion.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jQuery-AJAX/jQuery-AJAX.iml" filepath="$PROJECT_DIR$/jQuery-AJAX/jQuery-AJAX.iml" />
+    </modules>
+  </component>
+</project>

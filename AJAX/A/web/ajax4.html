@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>代理机制实现跨域访问</title>
+</head>
+<body>
+<!--
+    原理：AJAX不能直接跨域访问其他应用，但可以访问本应用服务器端的servlet，
+         而本应用本应用服务器端的servlet可以访问其他应用的servlet，这样可以通过本应用的servlet作为代理（中转）实现跨域访问
+-->
+<script type="text/javascript" src="/A/js/jQuery-1.0.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $("#btn").click(function () {
+            $.ajax({
+                type:"get",
+                url:"/A/proxy",
+                data:"t="+new Date().getTime(),
+                success:function (json) {
+                    $("#myDiv").html(json.username)
+                }
+            })
+        })
+    })
+</script>
+<button id="btn">使用代理机制解决ajax跨域访问</button>
+<div id="myDiv"></div>
+</body>
+</html>

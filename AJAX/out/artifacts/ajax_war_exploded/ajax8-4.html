@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery封装获取文本款value</title>
+</head>
+<body>
+<script type="text/javascript">
+    function jQuery(selector){
+        if (typeof selector == "string") {
+            if (selector.charAt(0) == "#") {
+                obj=document.getElementById(selector.substring(1));
+                return new jQuery()
+            }
+        }
+        if (typeof selector == "function") {
+            window.onload=selector
+        }
+        //封装获取和修改文本款value,
+        this.val=function (v){
+            if (v == undefined) {
+                return obj.value;
+            }else{
+                 obj.value=v
+            }
+        }
+        this.html=function (htmlStr){
+            obj.innerHTML=htmlStr
+        }
+        this.click=function (fun){
+            obj.onclick=fun;
+        }
+        this.focus=function (fun){
+            obj.onfocus=fun;
+        }
+        this.blur=function (fun){
+            obj.onblur=fun;
+        }
+    }
+    $=jQuery
+    //获取文本款value
+    // var username=document.getElementById("username").value
+    //修改文本款value
+    //username="hh"
+    $(function () {
+        $("#btn").click(function () {
+            $("#myDiv").html("<font color='green'>用户名为空</font>")
+            //修改/获取文本款value
+            $("#username").val("hh!!!")
+        })
+    })
+</script>
+<input type="text" id="username"/>
+<button id="btn">提交</button>
+<div id="myDiv"></div>
+</body>
+</html>
